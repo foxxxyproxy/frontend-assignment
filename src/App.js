@@ -1,17 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import Search from "./Search";
 
 class App extends Component {
   render() {
-    return (
-      <div>
-        <div>
-          <h2>Hello world</h2>
-        </div>
-        <p>
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
+    return <Search />;
   }
 }
 
