@@ -33,7 +33,6 @@ function Search(props) {
           setIsLoading(false);
         });
     }
-
     if (query.length > 2) {
       getData();
     } else {
@@ -70,10 +69,8 @@ function Search(props) {
   function handleOnKeyUpPress() {
     setDisplaySuggest(true);
   }
-  function handleItemClick(e) {
-    const selectedValue = e.target.textContent.split("(");
-    const newQuery = selectedValue[0].trim();
-    setQuery(newQuery);
+  function handleItemClick(value) {
+    setQuery(value);
   }
   return (
     <div className="container">

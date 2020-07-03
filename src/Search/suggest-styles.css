@@ -24,3 +24,6 @@
   outline-offset: -1px;
   background-color: var(--focus-background-color);
 }
+.search-suggestions__item--highlight {
+  font-weight: 300;
+}
