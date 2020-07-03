@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import SearchIcon from "./SearchIcon";
 import SuggestList from "./SuggestList";
 import "./search-styles.css";
@@ -8,10 +8,12 @@ function Search(props) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [displaySuggest, setDisplaySuggest] = useState(false);
+  const wrapperRef = useRef(null);
 
   useEffect(() => {
     async function getData() {
-      //console.log("featching data...");
+      console.log("featching data...");
       setIsLoading(true);
       const res = await fetchFromApi(query);
       res
@@ -24,6 +26,7 @@ function Search(props) {
           );
           console.log(suggestionsList);
           setSuggestions(suggestionsList);
+          setDisplaySuggest(true);
         })
         .catch((err) => console.log(err))
         .finally(() => {
@@ -38,6 +41,20 @@ function Search(props) {
     }
   }, [query]);
 
+  useEffect(() => {
+    window.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      window.removeEventListener("mousedown", handleClickOutside);
+    };
+  });
+
+  function handleClickOutside(e) {
+    const { current: wrap } = wrapperRef;
+    if (wrap && !wrap.contains(e.target)) {
+      setDisplaySuggest(false);
+    }
+  }
+
   function handleFormSubmit(e) {
     e.preventDefault();
     setQuery("");
@@ -50,10 +67,12 @@ function Search(props) {
     setQuery("");
     setSuggestions([]);
   }
-  function handleOnKeyUpPress() {}
+  function handleOnKeyUpPress() {
+    setDisplaySuggest(true);
+  }
   return (
     <div className="container">
-      <div className="search-wrapper" tabIndex={0}>
+      <div ref={wrapperRef} className="search-wrapper" tabIndex={0}>
         <form className="search-form" role="search" onSubmit={handleFormSubmit}>
           <label className="visually-hidden" htmlFor="search-form__input">
             Search
@@ -90,7 +109,9 @@ function Search(props) {
             </button>
           </div>
         </form>
-        <SuggestList query={query} suggestions={suggestions} />
+        {displaySuggest && (
+          <SuggestList query={query} suggestions={suggestions} />
+        )}
       </div>
     </div>
   );
