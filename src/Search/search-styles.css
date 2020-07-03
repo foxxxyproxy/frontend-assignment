@@ -38,7 +38,8 @@
 
 .search-form__input:hover,
 .search-form__input:focus {
-  outline: 1px solid var(--main-text-color);
+  outline: 2px solid var(--main-focus-outline);
+  box-shadow: 2px 2px 5px -2px rgba(0, 0, 0, 0.2);
 }
 
 input[type="search"]::-webkit-search-cancel-button {
@@ -52,14 +53,21 @@ input[type="search"]::-webkit-search-cancel-button {
 .button-wrapper {
   position: absolute;
   display: inline-flex;
-  right: 1em;
+  align-items: center;
+  right: 1px;
+  height: 100%;
 }
 .search-form__search-icon {
   width: 1.2rem;
   fill: var(--main-text-color);
 }
 
-.search-form__clear-button {
+.search-form__button {
+  height: 100%;
+}
+
+.search-form__button--clear {
+  position: relative;
   background-color: transparent;
   width: 2em;
   height: 2em;
@@ -67,11 +75,11 @@ input[type="search"]::-webkit-search-cancel-button {
   border-radius: 50%;
   cursor: pointer;
   transition: background-color 160ms;
-  margin-right: 0.8em;
+  margin-right: 0.3em;
 }
 
-.search-form__clear-button::after,
-.search-form__clear-button::before {
+.search-form__button--clear::after,
+.search-form__button--clear::before {
   content: "";
   position: absolute;
   width: 1px;
@@ -82,15 +90,34 @@ input[type="search"]::-webkit-search-cancel-button {
   left: 1em;
 }
 
-.search-form__clear-button::after {
+.search-form__button--clear::after {
   transform: rotate(45deg);
 }
 
-.search-form__clear-button:hover,
-.search-form__clear-button:focus {
+.search-form__button--clear:hover,
+.search-form__button--clear:focus {
   background-color: #e2e2e2;
 }
 
-.search-form__clear-button:focus {
+.search-form__button--clear:focus,
+.search-form__button--search:focus {
   outline: none;
+}
+
+.search-form__button--search {
+  background-color: transparent;
+  width: 2.5em;
+  border: 0;
+  cursor: pointer;
+  transition: background-color 160ms;
+}
+
+.search-form__button--search:focus,
+.search-form__button--search:hover {
+  background-color: var(--main-focus-outline);
+}
+
+.search-form__button--search:hover .search-form__search-icon,
+.search-form__button--search:focus .search-form__search-icon {
+  fill: #ffffff;
 }

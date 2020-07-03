@@ -9,10 +9,7 @@ function Search(props) {
   return (
     <div className="search-wrapper">
       <form className="search-form" role="search" onSubmit={handleFormSubmit}>
-        <label
-          className="search-form__label visually-hidden"
-          htmlFor="search-form__input"
-        >
+        <label className="visually-hidden" htmlFor="search-form__input">
           Search
         </label>
         <input
@@ -25,10 +22,16 @@ function Search(props) {
         />
 
         <div className="button-wrapper">
-          <button className="search-form__clear-button"></button>
-          <SearchIcon />
-          <button type="submit" className="search-form__submit visually-hidden">
-            Search
+          <button
+            aria-label="annuleren"
+            className="search-form__button search-form__button--clear"
+          />
+          <button
+            type="submit"
+            aria-label="zoeken"
+            className="search-form__button search-form__button--search"
+          >
+            <SearchIcon />
           </button>
         </div>
       </form>
