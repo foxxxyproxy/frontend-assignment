@@ -22,6 +22,12 @@
   position: relative;
   display: flex;
   align-items: center;
+  transition: transform ease 350ms;
+}
+.search-form:hover,
+.search-form:focus {
+  transform: scale(1.05);
+  outline: none;
 }
 
 .search-form__input {
