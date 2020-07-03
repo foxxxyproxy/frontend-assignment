@@ -7,6 +7,8 @@
   line-height: 1.5;
   --main-text-color: #6d6b6b;
   --main-focus-outline: #3e3e3e;
+  --main-background-color: #ffffff;
+  --focus-background-color: #f7f7f7;
   color: var(--main-text-color);
 }
 
