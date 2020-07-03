@@ -70,6 +70,11 @@ function Search(props) {
   function handleOnKeyUpPress() {
     setDisplaySuggest(true);
   }
+  function handleItemClick(e) {
+    const selectedValue = e.target.textContent.split("(");
+    const newQuery = selectedValue[0].trim();
+    setQuery(newQuery);
+  }
   return (
     <div className="container">
       <div ref={wrapperRef} className="search-wrapper" tabIndex={0}>
@@ -88,6 +93,7 @@ function Search(props) {
             required
             onChange={handleInputChange}
             onKeyUp={handleOnKeyUpPress}
+            autoComplete="off"
           />
 
           <div className="button-wrapper">
@@ -110,7 +116,11 @@ function Search(props) {
           </div>
         </form>
         {displaySuggest && (
-          <SuggestList query={query} suggestions={suggestions} />
+          <SuggestList
+            query={query}
+            suggestions={suggestions}
+            onItemClick={handleItemClick}
+          />
         )}
       </div>
     </div>

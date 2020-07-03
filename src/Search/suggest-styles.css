@@ -17,6 +17,7 @@
 
 .search-suggestions__item:hover {
   background-color: var(--focus-background-color);
+  cursor: pointer;
 }
 .search-suggestions__item:focus {
   outline: 1px solid rgba(0, 0, 0, 0.2);
