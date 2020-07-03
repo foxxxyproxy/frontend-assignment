@@ -33,6 +33,7 @@ function Search(props) {
           autoFocus
           placeholder="Zoeken"
           value={query}
+          required
           onChange={handleInputChange}
         />
 
