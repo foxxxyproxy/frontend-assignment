@@ -1,29 +1,33 @@
-import React, { useState, useEffect } from "react";
-import "./suggest-styles.css";
+import React from "react";
+import "./styles/suggest-styles.css";
 
 function SuggestList(props) {
-  const { query, suggestions, onItemClick } = props;
+  const { query, suggestions, onItemClick, display } = props;
 
   function highlightQuery(string) {
-    const parts = string.split(new RegExp(`(${query})`, "gi"));
+    try {
+      const parts = string.split(new RegExp(`(${query})`, "gi"));
 
-    const newNode = parts.map((part, index) => {
-      if (part.toLowerCase() === query.toLowerCase()) {
-        return (
-          <span key={index} className="search-suggestions__item--highlight">
-            {part}
-          </span>
-        );
-      }
-      return part;
-    });
-    //console.log(newNode);
-    return newNode;
+      const newNode = parts.map((part, index) => {
+        if (part.toLowerCase() === query.toLowerCase()) {
+          return (
+            <span key={index} className="search-suggestions__item--highlight">
+              {part}
+            </span>
+          );
+        }
+        return part;
+      });
+      //console.log(newNode);
+      return newNode;
+    } catch {
+      return string;
+    }
   }
 
   return (
     <>
-      {suggestions.length > 0 && (
+      {display && suggestions.length > 0 && (
         <ul className="search-suggestions">
           {suggestions.map((suggest, index) => (
             <li

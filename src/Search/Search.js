@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import SearchIcon from "./SearchIcon";
 import SuggestList from "./SuggestList";
-import "./search-styles.css";
-import { fetchFromApi } from "./data-helper";
+import "./styles/search-styles.css";
+import { fetchFromApi, makeSuggest } from "./api-helper";
+import SearchInput from "./UI/SearchInput";
+import ClearButton from "./UI/ClearButton";
+import SubmitButton from "./UI/SubmitBytton";
 
 function Search(props) {
   const [query, setQuery] = useState("");
@@ -13,18 +15,13 @@ function Search(props) {
 
   useEffect(() => {
     async function getData() {
-      console.log("featching data...");
+      //console.log("featching data...");
       setIsLoading(true);
       const res = await fetchFromApi(query);
       res
         .json()
         .then((res) => {
-          //console.log(res);
-          const regex = RegExp(query, "i");
-          const suggestionsList = res.suggestions.filter(({ searchterm }) =>
-            regex.test(searchterm)
-          );
-          console.log(suggestionsList);
+          const suggestionsList = makeSuggest(query, res);
           setSuggestions(suggestionsList);
           setDisplaySuggest(true);
         })
@@ -76,49 +73,27 @@ function Search(props) {
     <div className="container">
       <div ref={wrapperRef} className="search-wrapper" tabIndex={0}>
         <form className="search-form" role="search" onSubmit={handleFormSubmit}>
-          <label className="visually-hidden" htmlFor="search-form__input">
-            Search
-          </label>
-          <input
-            className="search-form__input"
-            id="search-form__input"
-            name="search-form__input"
-            type="search"
-            autoFocus
-            placeholder="Zoeken"
-            value={query}
-            required
+          <SearchInput
             onChange={handleInputChange}
             onKeyUp={handleOnKeyUpPress}
-            autoComplete="off"
+            value={query}
           />
-
           <div className="button-wrapper">
-            {query && (
-              <button
-                aria-label="annuleren"
-                className="search-form__button search-form__button--clear"
-                onClick={handleClearClick}
-                disabled={isLoading}
-              />
-            )}
-            <button
-              type="submit"
-              aria-label="zoeken"
-              className="search-form__button search-form__button--search"
+            <ClearButton
+              onClick={handleClearClick}
               disabled={isLoading}
-            >
-              <SearchIcon />
-            </button>
+              display={query.length > 0}
+            />
+            <SubmitButton disabled={isLoading} />
           </div>
         </form>
-        {displaySuggest && (
-          <SuggestList
-            query={query}
-            suggestions={suggestions}
-            onItemClick={handleItemClick}
-          />
-        )}
+
+        <SuggestList
+          query={query}
+          suggestions={suggestions}
+          onItemClick={handleItemClick}
+          display={displaySuggest}
+        />
       </div>
     </div>
   );
