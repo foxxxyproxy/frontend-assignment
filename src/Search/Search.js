@@ -22,6 +22,7 @@ function Search(props) {
         .json()
         .then((res) => {
           const suggestionsList = makeSuggest(query, res);
+          //console.log(suggestionsList);
           setSuggestions(suggestionsList);
           setDisplaySuggest(true);
         })
@@ -56,39 +57,50 @@ function Search(props) {
     setQuery("");
     setSuggestions([]);
   }
+
   function handleInputChange(e) {
     setQuery(e.target.value);
   }
+
   function handleClearClick() {
     setQuery("");
     setSuggestions([]);
   }
+
   function handleOnKeyUpPress() {
     setDisplaySuggest(true);
   }
+
   function handleItemClick(value) {
     setQuery(value);
   }
+
   return (
     <div className="container">
       <div ref={wrapperRef} className="search-wrapper" tabIndex={0}>
         <form className="search-form" role="search" onSubmit={handleFormSubmit}>
           <SearchInput
+            className="search-form__input"
             onChange={handleInputChange}
             onKeyUp={handleOnKeyUpPress}
             value={query}
           />
           <div className="button-wrapper">
             <ClearButton
+              className="search-form__button search-form__button--clear"
               onClick={handleClearClick}
               disabled={isLoading}
               display={query.length > 0}
             />
-            <SubmitButton disabled={isLoading} />
+            <SubmitButton
+              className="search-form__button search-form__button--search"
+              disabled={isLoading}
+            />
           </div>
         </form>
 
         <SuggestList
+          className="search-suggestions"
           query={query}
           suggestions={suggestions}
           onItemClick={handleItemClick}

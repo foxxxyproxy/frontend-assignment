@@ -1,12 +1,12 @@
 import React from "react";
 
-const SearchInput = ({ onChange, onKeyUp, value }) => (
+const SearchInput = ({ onChange, onKeyUp, value, className }) => (
   <>
     <label className="visually-hidden" htmlFor="search-form__input">
       Search
     </label>
     <input
-      className="search-form__input"
+      className={className || "search-form__input"}
       id="search-form__input"
       name="search-form__input"
       type="search"
