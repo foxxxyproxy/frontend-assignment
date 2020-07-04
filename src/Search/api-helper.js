@@ -1,9 +1,12 @@
 const baseURI = "http://localhost:5000";
 
 export function fetchFromApi(query) {
-  const res = fetch(`${baseURI}/search?q=${encodeURI(query)}`);
-
-  return res;
+  try {
+    const res = fetch(`${baseURI}/search?q=${encodeURI(query)}`);
+    return res;
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 export function makeSuggest(query, res) {
