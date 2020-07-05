@@ -2,11 +2,11 @@ import React from "react";
 import { storiesOf } from "@storybook/react";
 //import { action } from "@storybook/addon-actions";
 import Search from ".";
-import "./styles/search-styles.css";
-import "./styles/suggest-styles.css";
-import SearchInput from "./UI/SearchInput";
-import ClearButton from "./UI/ClearButton";
-import SubmitButton from "./UI/SubmitBytton";
+import "../styles/search-styles.css";
+import "../styles/suggest-styles.css";
+import SearchInput from "../UI/SearchInput";
+import ClearButton from "../UI/ClearButton";
+import SubmitButton from "../UI/SubmitBytton";
 import SuggestList from "./SuggestList";
 
 storiesOf("Search", module).add("component", () => (

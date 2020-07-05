@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import SuggestList from "./SuggestList";
-import "./styles/search-styles.css";
-import { fetchFromApi, makeSuggest } from "./api-helper";
-import SearchInput from "./UI/SearchInput";
-import ClearButton from "./UI/ClearButton";
-import SubmitButton from "./UI/SubmitBytton";
+import "../styles/search-styles.css";
+import { fetchFromApi, makeSuggest } from "../util/api-helper";
+import SearchInput from "../UI/SearchInput";
+import ClearButton from "../UI/ClearButton";
+import SubmitButton from "../UI/SubmitBytton";
 
 function Search(props) {
   const [query, setQuery] = useState("");

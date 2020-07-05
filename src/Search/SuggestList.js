@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles/suggest-styles.css";
+import "../styles/suggest-styles.css";
 
 function SuggestList(props) {
   const { query, suggestions, onItemClick, display } = props;
