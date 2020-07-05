@@ -1,5 +1,3 @@
-import fakeApiResponse from "./fakeApiResponse";
-
 const baseURI = "http://localhost:5000";
 
 export function fetchFromApi(query) {
@@ -8,10 +6,6 @@ export function fetchFromApi(query) {
     return res;
   } catch (e) {
     console.log(e);
-
-    //for temporary reasons. if fake API is not launched
-    const res = fakeApiResponse;
-    return res;
   }
 }
 

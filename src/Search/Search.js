@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import SuggestList from "./SuggestList";
 import "../styles/search-styles.css";
+import fakeApiResponse from "../util/fakeApiResponse";
 import { fetchFromApi, makeSuggest } from "../util/api-helper";
 import SearchInput from "../UI/SearchInput";
 import ClearButton from "../UI/ClearButton";
@@ -15,21 +16,28 @@ function Search(props) {
 
   useEffect(() => {
     async function getData() {
-      //console.log("featching data...");
       setIsLoading(true);
-      const res = await fetchFromApi(query);
-      res
-        .json()
-        .then((res) => {
-          const suggestionsList = makeSuggest(query, res);
-          //console.log(suggestionsList);
-          setSuggestions(suggestionsList);
-          setDisplaySuggest(true);
-        })
-        .catch((err) => console.log(err))
-        .finally(() => {
-          setIsLoading(false);
-        });
+      try {
+        const res = await fetchFromApi(query);
+        res
+          .json()
+          .then((res) => {
+            const suggestionsList = makeSuggest(query, res);
+            setSuggestions(suggestionsList);
+            setDisplaySuggest(true);
+          })
+          .catch((err) => console.log(err))
+          .finally(() => {
+            setIsLoading(false);
+          });
+      } catch (e) {
+        //for temporary reasons. if fake API is not launched
+        console.log("api is not launched suggest from fake response");
+        const suggestionsList = makeSuggest(query, fakeApiResponse);
+        setSuggestions(suggestionsList);
+        setDisplaySuggest(true);
+        setIsLoading(false);
+      }
     }
     if (query.length > 2) {
       getData();
