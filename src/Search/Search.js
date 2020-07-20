@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import SuggestList from "./SuggestList";
 import "../styles/search-styles.css";
-import fakeApiResponse from "../util/fakeApiResponse";
+import fakeApiResponse from "../util/fake-api-response";
 import { fetchFromApi, makeSuggest } from "../util/api-helper";
 import SearchInput from "../UI/SearchInput";
 import ClearButton from "../UI/ClearButton";
@@ -81,6 +81,7 @@ function Search(props) {
 
   function handleItemClick(value) {
     setQuery(value);
+    setDisplaySuggest((prev) => !prev);
   }
 
   return (

@@ -5,7 +5,7 @@ function SuggestList(props) {
   const { query, suggestions, onItemClick, display } = props;
 
   function highlightQuery(string) {
-    try {
+    if (typeof string === "string") {
       const parts = string.split(new RegExp(`(${query})`, "gi"));
 
       const newNode = parts.map((part, index) => {
@@ -20,7 +20,7 @@ function SuggestList(props) {
       });
       //console.log(newNode);
       return newNode;
-    } catch {
+    } else {
       return string;
     }
   }
@@ -34,7 +34,9 @@ function SuggestList(props) {
               key={index}
               className="search-suggestions__item"
               tabIndex={0}
-              onClick={() => onItemClick(suggest.searchterm)}
+              onClick={() => {
+                onItemClick(suggest.searchterm);
+              }}
             >
               <span className="search-suggestions__item--term">
                 {highlightQuery(suggest.searchterm)}

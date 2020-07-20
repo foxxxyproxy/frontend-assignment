@@ -11,7 +11,7 @@ const SearchInput = ({ onChange, onKeyUp, value, className }) => (
       name="search-form__input"
       type="search"
       autoFocus
-      placeholder="Zoeken"
+      placeholder="Zoeken: try 'kenzo' or 'trui'"
       value={value}
       required
       onChange={onChange}

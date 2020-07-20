@@ -1,7 +1,7 @@
 import Adapter from "enzyme-adapter-react-16";
 import { configure } from "enzyme";
 import { makeSuggest } from "./api-helper";
-import fakeApiResponse from "./fakeApiResponse";
+import fakeApiResponse from "./fake-api-response";
 
 configure({ adapter: new Adapter() });
 
