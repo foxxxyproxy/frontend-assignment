@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import SuggestList from "./SuggestList";
 import "../styles/search-styles.css";
 import fakeApiResponse from "../util/fake-api-response";
@@ -6,6 +6,7 @@ import { fetchFromApi, makeSuggest } from "../util/api-helper";
 import SearchInput from "../UI/SearchInput";
 import ClearButton from "../UI/ClearButton";
 import SubmitButton from "../UI/SubmitBytton";
+import debounce from "lodash/debounce";
 
 function Search(props) {
   const [query, setQuery] = useState("");
@@ -13,38 +14,41 @@ function Search(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [displaySuggest, setDisplaySuggest] = useState(false);
   const wrapperRef = useRef(null);
+  const delayedQuery = useCallback(debounce(updateQuery, 500), [query]);
 
   useEffect(() => {
-    async function getData() {
-      setIsLoading(true);
-      try {
-        const res = await fetchFromApi(query);
-        res
-          .json()
-          .then((res) => {
-            const suggestionsList = makeSuggest(query, res);
-            setSuggestions(suggestionsList);
-            setDisplaySuggest(true);
-          })
-          .catch((err) => console.log(err))
-          .finally(() => {
-            setIsLoading(false);
-          });
-      } catch (e) {
-        //for temporary reasons. if fake API is not launched
-        console.log("api is not launched suggest from fake response");
-        const suggestionsList = makeSuggest(query, fakeApiResponse);
-        setSuggestions(suggestionsList);
-        setDisplaySuggest(true);
-        setIsLoading(false);
-      }
-    }
     if (query.length > 2) {
-      getData();
+      delayedQuery();
+      //cancel the debounce on useEffect cleanup
+      return delayedQuery.cancel;
     } else {
       setSuggestions([]);
     }
-  }, [query]);
+  }, [query, delayedQuery]);
+
+  async function updateQuery() {
+    //console.log("getting query for ", query);
+    setIsLoading(true);
+    try {
+      const res = await fetchFromApi(query);
+      res
+        .json()
+        .then((res) => {
+          const suggestionsList = makeSuggest(query, res);
+          setSuggestions(suggestionsList);
+        })
+        .catch((err) => console.log(err))
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } catch (e) {
+      //for temporary reasons. if fake API is not launched
+      console.log("api is not launched suggest from fake response");
+      const suggestionsList = makeSuggest(query, fakeApiResponse);
+      setSuggestions(suggestionsList);
+      setIsLoading(false);
+    }
+  }
 
   useEffect(() => {
     window.addEventListener("mousedown", handleClickOutside);
